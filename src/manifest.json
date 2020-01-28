@@ -1,0 +1,30 @@
+{
+   "author": "Buu Nguyen",
+   "background": {
+      "persistent": true,
+      "scripts": [ "background.js" ]
+   },
+   "browser_action": {
+      "browser_style": true,
+      "default_icon": "icons/icon128.png"
+   },
+   "content_scripts": [ {
+      "css": [ "content.css", "themes-1.css", "themes-2.css" ],
+      "js": [ "content.js" ],
+      "matches": [ "https://github.com/*" ],
+      "run_at": "document_start"
+   } ],
+   "description": "GitHub on steroids",
+   "homepage_url": "https://www.octotree.io",
+   "icons": {
+      "128": "icons/icon128.png"
+   },
+   "manifest_version": 2,
+   "minimum_chrome_version": "60",
+   "name": "Octotree",
+   "optional_permissions": [ "http://*/*", "https://*/*", "webNavigation", "tabs" ],
+   "permissions": [ "https://api.github.com/*", "https://www.octotree.io/*", "storage", "contextMenus", "activeTab" ],
+   "update_url": "https://raw.githubusercontent.com/tofuliang/octotree/master/updates.xml",
+   "version": "99.4.1.3",
+   "web_accessible_resources": [ "*.woff2", "*.png", "*.gif", "*.svg" ]
+}
