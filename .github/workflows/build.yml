@@ -1,0 +1,31 @@
+name: Node CI
+
+on:
+  watch:
+    types: [started]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install, build
+        env:
+          PRIVATE_KEY: ${{ secrets.buildPem }}
+        run: |
+          npm install crx3
+          cat <<< $PRIVATE_KEY > ../build.pem
+          npx crx3 -p ../build.pem -o Octotree.crx -x update.xml --crxURL https://raw.githubusercontent.com/tofuliang/Octotree/master/Octotree.crx src
+      - name: Set git identity
+        run : |
+          git config --global user.email "tofuliang@gmail.com"
+          git config --global user.name "tofuliang"
+          git add Octotree.crx update.xml
+          git commit -m "update crx"
+          git push
