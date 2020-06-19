@@ -10,15 +10,15 @@ await this._cacheBookmarks(e))}catch(e){e.statusCode!=401&&console.error(e)}
 ```
 
 ```
-if(!h)return await this._cleanUpPlugins(),void this._buildLiteView();
-if(!h) await this._cleanUpPlugins(),void this._buildLiteView();
+if(!p)return await this._cleanUpPlugins(),void this._buildLiteView(e,s);
+if(!p) await this._cleanUpPlugins(),void this._buildLiteView(e,s);
 ```
 
 ```
-async _verifySubscription(){
-async _verifySubscription(){return t.SUBSCRIPTION_OK;
+async _verifySubscription(e){
+async _verifySubscription(e){return t.SUBSCRIPTION_OK;
 ```
 ```
-JSON.parse(e.substring(0,i+1))}}catch(e){}return null}
-JSON.parse(e.substring(0,i+1))}}catch(e){}return {"id":1,"email":"","expiredAt":1,"subscriptionStatus":"ACTIVE","createdAt":1,"trialDays":1,"iat":1,"exp":1}}
+JSON.parse(e.substring(0,a+1))}}catch(e){}return null}
+JSON.parse(e.substring(0,a+1))}}catch(e){}return {"id":1,"email":"","expiredAt":1,"subscriptionStatus":"ACTIVE","createdAt":1,"trialDays":1,"iat":1,"exp":1}}
 ```
