@@ -25,6 +25,6 @@
    "optional_permissions": [ "http://*/*", "https://*/*", "webNavigation", "tabs" ],
    "permissions": [ "https://api.github.com/*", "https://www.octotree.io/*", "storage", "contextMenus", "activeTab" ],
    "update_url": "https://raw.githubusercontent.com/tofuliang/octotree/master/update.xml",
-   "version": "99.5.1.0",
+   "version": "99.5.4.0",
    "web_accessible_resources": [ "*.woff2", "*.png", "*.gif", "*.svg" ]
 }
