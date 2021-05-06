@@ -1,5 +1,5 @@
 {
-   "author": "Buu Nguyen",
+   "author": "Team Octotree",
    "background": {
       "persistent": true,
       "scripts": [ "background.js" ]
@@ -27,6 +27,6 @@
    "optional_permissions": [ "http://*/*", "https://*/*", "webNavigation" ],
    "permissions": [ "https://api.github.com/*", "https://www.octotree.io/*", "storage", "contextMenus", "activeTab" ],
    "update_url": "https://raw.githubusercontent.com/tofuliang/octotree/master/update.xml",
-   "version": "99.6.0.4",
+   "version": "99.7.0.2",
    "web_accessible_resources": [ "*.woff2", "*.png", "*.gif", "*.svg" ]
 }
