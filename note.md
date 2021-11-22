@@ -7,6 +7,10 @@
 
 `7.0.2`
 
+0.直接操作
+
+sed -i 's/function\s\([a-z]\{1,\}([a-z]\{1,\})\){return [a-z]\{1,\}===[a-z]\{1,\}}/function \1{return !0}/g' 7.0.2_0/content.js
+
 1.查找
 
 ```javascript
