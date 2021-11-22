@@ -33,6 +33,6 @@
    "optional_permissions": [ "http://*/*", "https://*/*" ],
    "permissions": [ "https://api.github.com/*", "https://www.octotree.io/*", "storage", "contextMenus", "activeTab" ],
    "update_url": "https://raw.githubusercontent.com/tofuliang/octotree/master/update.xml",
-   "version": "99.7.2.2",
+   "version": "99.7.2.3",
    "web_accessible_resources": [ "*.woff2", "*.png", "*.gif", "*.svg" ]
 }
