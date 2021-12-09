@@ -3,10 +3,13 @@ name: Node CI
 on:
   watch:
     types: [started]
-
+  schedule:
+    - cron: 0 0 * * *
+  push:
+    branches:
+      - master
 jobs:
   build:
-
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
@@ -15,7 +18,21 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Get Latest CRX
+        run: |
+          remoteVersion=$(curl -s https://chrome.google.com/webstore/detail/octotree-github-code-tree/bkhaagjahfmjljalopjnoealnfndnagc |grep -oE "meta itemprop=\"version\" content=\"[0-9\.]+\""|grep -oE "[0-9\.]+")
+          localVersion=$(cat update.xml|grep -oE "version=\"99.[0-9\.]+\""|sed 's/99.//'|grep -oE "[0-9\.]+")
+          echo NEW_VERSION=$remoteVersion >> $GITHUB_ENV
+          if [ $(./verComp.sh $localVersion $remoteVersion) -eq 2 ]; then
+            echo ""
+            echo "Downloading $remoteVersion ..."
+            mkdir new;
+            wget -O new/a.zip "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=96.0.4664.55&acceptformat=crx2,crx3&x=id%3Dbkhaagjahfmjljalopjnoealnfndnagc%26uc"
+            (cd new;unzip a.zip||true;rm -fr a.zip)
+            echo UPGRAED=$(./deal.sh new $remoteVersion) >> $GITHUB_ENV
+          fi
       - name: npm install, build
+        if: env.UPGRAED == '1'
         env:
           PRIVATE_KEY: ${{ secrets.buildPem }}
         run: |
@@ -23,9 +40,16 @@ jobs:
           cat <<< $PRIVATE_KEY > ../build.pem
           npx crx3 -p ../build.pem -o Octotree.crx -x update.xml --crxURL https://raw.githubusercontent.com/tofuliang/Octotree/master/Octotree.crx src
       - name: Set git identity
-        run : |
+        if: env.UPGRAED == '1'
+        run: |
           git config --global user.email "tofuliang@gmail.com"
           git config --global user.name "tofuliang"
-          git add Octotree.crx update.xml
-          git commit -m "update crx"
+          git add Octotree.crx update.xml src
+          git commit -m "update crx to ${NEW_VERSION}"
           git push
+      - name: 失败调试
+        uses: P3TERX/ssh2actions@main
+        if: ${{ failure() }}
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
