@@ -1,8 +1,7 @@
 name: Node CI
 
 on:
-  watch:
-    types: [started]
+  workflow_dispatch:
   schedule:
     - cron: 0 0 * * *
   push:
@@ -11,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event.repository.owner.id == github.event.sender.id
+    if: github.event.repository.owner.id == github.event.sender.id || ! github.event.sender.id
     steps:
       - uses: actions/checkout@master
       - name: Use Node.js ${{ matrix.node-version }}
