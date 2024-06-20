@@ -2,40 +2,64 @@
 "update_url": "https://raw.githubusercontent.com/tofuliang/octotree/master/update.xml",
 
   "name": "Octotree - GitHub code tree",
-  "version": "99.7.12.4",
+  "version": "99.8.0.1",
   "description": "GitHub on steroids",
   "homepage_url": "https://www.octotree.io",
   "author": "Team Octotree",
-  "manifest_version": 2,
-  "minimum_chrome_version": "60",
-  "applications": {
-    "gecko": {
-      "id": "jid1-Om7eJGwA1U8Akg@jetpack",
-      "strict_min_version": "55.0"
-    }
-  },
+  "manifest_version": 3,
+  "minimum_chrome_version": "88",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": "icons/icon128.png",
     "browser_style": true
   },
-  "permissions": ["https://api.github.com/*", "https://www.octotree.io/*", "storage", "contextMenus", "activeTab"],
-  "optional_permissions": ["http://*/*", "https://*/*"],
-  "web_accessible_resources": ["*.woff2", "*.png", "*.gif", "*.svg"],
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://api.github.com/*",
+    "https://www.octotree.io/*"
+  ],
+  "optional_host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "*.woff2",
+        "*.png",
+        "*.gif",
+        "*.svg"
+      ],
+      "matches": [
+        "*://*/*"
+      ]
+    }
+  ],
   "background": {
-    "scripts": ["browser-polyfill.js", "background.js"],
-    "persistent": true
+    "service_worker": "background.js",
+    "type": "module"
   },
   "content_scripts": [
     {
       "run_at": "document_start",
-      "matches": ["https://github.com/*"],
-      "js": ["browser-polyfill.js", "content.js"],
-      "css": ["content.css"]
+      "matches": [
+        "https://github.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ]
     }
   ]
 }
