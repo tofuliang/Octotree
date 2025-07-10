@@ -19,7 +19,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Get Latest CRX
         run: |
-          remoteVersion=$(curl -Ls https://chrome.google.com/webstore/detail/octotree-github-code-tree/bkhaagjahfmjljalopjnoealnfndnagc |grep -oE "\\\"version\\\\\":\s*\\\\\"[0-9\.]+\""|grep -oE "[0-9.]+")
+          remoteVersion=$(curl -Ls https://chrome.google.com/webstore/detail/octotree-github-code-tree/bkhaagjahfmjljalopjnoealnfndnagc |grep -oE "\\\\\"name\\\\\":\s*\\\\\"Octotree - GitHub code tree\\\\\",\\\n\s*\\\\\"version\\\\\":\s*\\\\\"[0-9\.]+\""|grep -oE "[0-9.]+")
           localVersion=$(cat update.xml|grep -oE "version=\"99.[0-9\.]+\""|sed 's/99.//'|grep -oE "[0-9\.]+")
           echo NEW_VERSION=$remoteVersion >> $GITHUB_ENV
           if [ $(./verComp.sh $localVersion $remoteVersion) -eq 2 ]; then
