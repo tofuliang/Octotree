@@ -3,7 +3,7 @@
 dir=$1
 cd $dir
 rm  -fr _metadata manifest.fingerprint ../src
-sed -i.bak 's/=C.UNAUTHENTICATED;if(\([a-z]\{1,\}\)){/\0\1.expiredAt=Date.now()+86400000,\1.subscriptionStatus="ACTIVE";/g' content.js
+sed -i.bak 's/=[A-Z].UNAUTHENTICATED;if(\([a-z]\{1,\}\)){/\0\1.expiredAt=Date.now()+86400000,\1.subscriptionStatus="ACTIVE";/g' content.js
 patchResult=$(diff content.js.bak content.js |grep -c -e "^<")
 rm content.js.bak
 sed -i '/differential_fingerprint/d' manifest.json
