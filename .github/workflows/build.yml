@@ -13,6 +13,26 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id || ! github.event.sender.id
     steps:
       - uses: actions/checkout@master
+      - name: Repository Keepalive
+        run: |
+          set -euo pipefail
+          age_days=$(( ( $(date -u +%s) - $(git log -1 --format=%ct) ) / 86400 ))
+          echo "days since last commit: ${age_days}"
+          if [ "${age_days}" -lt 30 ]; then
+            echo "repository active (${age_days} days), skip"
+            exit 0
+          fi
+          mkdir -p .github/keepalive
+          date -u +'%Y-%m-%dT%H:%M:%SZ' > .github/keepalive/heartbeat
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/keepalive/heartbeat
+          if git diff --cached --quiet; then
+            echo "heartbeat unchanged, skip"
+            exit 0
+          fi
+          git commit -m "chore: keepalive $(date -u +%F)"
+          git push
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
